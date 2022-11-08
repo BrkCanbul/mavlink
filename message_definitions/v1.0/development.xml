@@ -151,6 +151,14 @@
         </description>
       </entry>
     </enum>
+    <enum name="MAV_STANDARD_MODE_PROPERTY">
+      <description>Mode properties.
+      </description>
+      <entry value="1" name="MAV_STANDARD_MODE_PROPERTY_ADVANCED">
+        <description>If set, this mode is an advanced mode. A GCS can use this to only show easy-to-control modes. For example a rate-controlled manual mode might be advanced, whereas a position-controlled manual mode is not.
+        </description>
+      </entry>
+    </enum>
     <!-- The MAV_CMD enum entries describe either: -->
     <!--  * the data payload of mission items (as used in the MISSION_ITEM_INT message) -->
     <!--  * the data payload of mavlink commands (as used in the COMMAND_INT and COMMAND_LONG messages) -->
@@ -456,9 +464,9 @@
       <field type="uint8_t" name="number_modes">The total number of available modes for the current vehicle type.</field>
       <field type="uint8_t" name="mode_index">The current mode index within number_modes, indexed from 1.</field>
       <field type="uint8_t" name="standard_mode" enum="MAV_STANDARD_MODE">Standard mode.</field>
-      <field type="uint8_t" name="base_mode" enum="MAV_MODE_FLAG" display="bitmask">System mode bitmap.</field>
       <field type="uint32_t" name="custom_mode">A bitfield for use for autopilot-specific flags</field>
-      <field type="char[50]" name="mode_name">Name of custom mode, with null termination character. Should be omitted for standard modes.</field>
+      <field type="uint32_t" name="properties" enum="MAV_STANDARD_MODE_PROPERTY">Mode Properties.</field>
+      <field type="char[25]" name="mode_name">Name of custom mode, with null termination character. Should be omitted for standard modes.</field>
     </message>
     <message id="436" name="CURRENT_MODE">
       <description>Get the current mode.
@@ -466,8 +474,14 @@
         It may be requested using MAV_CMD_REQUEST_MESSAGE.
       </description>
       <field type="uint8_t" name="standard_mode" enum="MAV_STANDARD_MODE">Standard mode.</field>
-      <field type="uint8_t" name="base_mode" enum="MAV_MODE_FLAG" display="bitmask">System mode bitmap.</field>
       <field type="uint32_t" name="custom_mode">A bitfield for use for autopilot-specific flags</field>
+      <field type="uint32_t" name="custom_mode_user_intention">custom_mode of the current user intended mode. This is generally equal to custom_mode, but might be different in a failsafe condition.</field>
+    </message>
+    <message id="437" name="AVAILABLE_MODES_CHANGE_NOTIFICATION">
+      <description>Notification message for updates to AVAILABLE_MODES. A receiver must re-request all available modes whenever the sequence number changes.
+        This is only emitted after the first change and should then be broadcast at low rate (nominally 0.3 Hz) or on change.
+      </description>
+      <field type="uint8_t" name="seq">Sequence number. This is increased whenever AVAILABLE_MODES changes</field>
     </message>
   </messages>
 </mavlink>
