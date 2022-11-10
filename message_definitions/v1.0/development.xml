@@ -151,7 +151,7 @@
         </description>
       </entry>
     </enum>
-    <enum name="MAV_STANDARD_MODE_PROPERTY">
+    <enum name="MAV_STANDARD_MODE_PROPERTY" bitmask="true">
       <description>Mode properties.
       </description>
       <entry value="1" name="MAV_STANDARD_MODE_PROPERTY_ADVANCED">
