@@ -155,7 +155,9 @@
       <description>Mode properties.
       </description>
       <entry value="1" name="MAV_STANDARD_MODE_PROPERTY_ADVANCED">
-        <description>If set, this mode is an advanced mode. A GCS can use this to only show easy-to-control modes. For example a rate-controlled manual mode might be advanced, whereas a position-controlled manual mode is not.
+        <description>If set, this mode is an advanced mode.
+          For example a rate-controlled manual mode might be advanced, whereas a position-controlled manual mode is not.
+          A GCS can optionally use this flag to configure the UI for its intended users. 
         </description>
       </entry>
     </enum>
